@@ -6,6 +6,8 @@ import LoginPage from './pages/LoginPage';
 import SinglePage from './pages/SinglePage';
 //layouts importeras in
 import BaseLayout from './components/BaseLayout';
+//skyddad adminsida undertiden för utveckling av komponeneter 
+import AdminPage from './pages/AdminPage';
 
 const router = createBrowserRouter([
     {
@@ -20,6 +22,10 @@ const router = createBrowserRouter([
                 path: "/login", 
                 element: <LoginPage />
             },
+            {
+                path: "/admin",
+                element: <AdminPage /> 
+            }
         ]   
     },
     //ska nog ha annan layout

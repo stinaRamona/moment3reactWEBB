@@ -3,7 +3,8 @@
 const Footer = () => {
   return (
     <div>
-        <p>En enkel footer</p>
+        <p>©️Stina Persson</p>
+        <p>Fördjupad Frontendutveckling - Mittunoversitetet 2025</p>
     </div>
   )
 }
