@@ -7,17 +7,19 @@ interface PostForm {
     postText: string,
 }
 
-const NewPostForm = () => {
-
+const NewPostForm = () => { 
+    
     //state för formulärdata
     const [formData, setFormData] = useState<PostForm>({title: "", author: "", postText: ""}); 
 
-    const addBlogpost = async () => {
+    const addBlogpost = async (event : any) => {
+        event.preventDefault();
+
         try {
             let response = await fetch("https://hapiblog.onrender.com/post", {
                 method: "POST", 
                 headers: {
-                    contentType: "application/json"
+                    "Content-Type": "application/json"
                 }, 
                 body: JSON.stringify(formData)
             }); 
@@ -31,16 +33,23 @@ const NewPostForm = () => {
     }
 
   return (
-    <form>
+    <form onSubmit={addBlogpost}>
         <label htmlFor="title">Rubrik:</label><br />
-        <input type="text" name="title" id="title" value={formData.title}/><br />
+        <input type="text" name="title" id="title" value={formData.title}
+        onChange={(event) => setFormData({...formData, title: event.target.value})}
+        />
+        <br />
 
         <label htmlFor="author">Författare:</label><br />
-        <input type="text" name="author" id="author" value={formData.author}/><br />
+        <input type="text" name="author" id="author" value={formData.author}
+        onChange={(event) => setFormData({...formData, author: event.target.value})}
+        />
+        <br />
 
         <label htmlFor="postText">Ditt inlägg:</label><br />
-        <textarea name="postText" id="postText" value={formData.postText}></textarea><br />
-
+        <textarea name="postText" id="postText" value={formData.postText} 
+        onChange={(event) => setFormData({...formData, postText: event.target.value})}
+        ></textarea><br />
         <input type="submit" value="Posta inlägg"/>
     </form>
   )
