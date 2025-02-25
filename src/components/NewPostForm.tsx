@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { useEffect } from "react"
 
 interface PostForm {
     title: string, 
@@ -25,8 +24,9 @@ const NewPostForm = () => {
             }); 
 
             if(!response.ok) {
-                console.log("Något gick fel vid postandet"); 
-            }
+                console.log("Något gick fel vid inloggningen"); 
+            } 
+
         } catch(error) {
             console.error(error); 
         }
