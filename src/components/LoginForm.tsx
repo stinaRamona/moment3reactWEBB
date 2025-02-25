@@ -8,6 +8,7 @@ interface LoginForm {
 const LoginForm = () => {
 
   const [loginData, setLoginData] = useState<LoginForm>({email: "", password: ""}); 
+  const [error, setError] = useState<string>(""); 
 
   const loginUser = async (event : any) => {
     event.preventDefault(); 
@@ -22,14 +23,13 @@ const LoginForm = () => {
       })
 
       if(!response.ok) {
-        // koll för utveckling 
-        console.log("Något gick fel vid inloggning"); 
+        // meddelanden för lyckad/misslyckad inloggning  
+        setError("Fel användarnamn eller lösenord. Försök igen!"); 
       } else {
-        console.log("inloggad!"); 
+        setError("Du är nu inloggad!")
       }
-      
+
     } catch (error) {
-      
       // konsoll koll för utveckling 
       console.log(error); 
     }
@@ -37,19 +37,19 @@ const LoginForm = () => {
 
   return (
     <form onSubmit={loginUser}>
-        <label htmlFor="email">E-post:</label><br />
-        <input type="text" name="email" id="email" value={loginData.email}
-        onChange={(event) => setLoginData({...loginData, email: event.target.value})}
-        />
-        <br />
+      <label htmlFor="email">E-post:</label><br />
+      <input type="text" name="email" id="email" value={loginData.email}
+      onChange={(event) => setLoginData({...loginData, email: event.target.value})}
+      />
+      <br />
 
-        <label htmlFor="password">Lösenord:</label><br />
-        <input type="text" id="password" name="password" value={loginData.password} 
-        onChange={(event) => setLoginData({...loginData, password: event.target.value})}
-        />
-        <br />
-
-        <input type="submit" value="Logga in"/>
+      <label htmlFor="password">Lösenord:</label><br />
+      <input type="text" id="password" name="password" value={loginData.password} 
+      onChange={(event) => setLoginData({...loginData, password: event.target.value})}
+      />
+      <br />
+      {error && <p>{error}</p>}
+      <input type="submit" value="Logga in"/>
     </form>
   )
 }
