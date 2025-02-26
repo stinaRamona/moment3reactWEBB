@@ -8,6 +8,8 @@ import SinglePage from './pages/SinglePage';
 import BaseLayout from './components/BaseLayout';
 //skyddad adminsida undertiden för utveckling av komponeneter 
 import AdminPage from './pages/AdminPage';
+//skyddad routing 
+import ProtectedRoute from "./components/ProtectedRoute"; 
 
 const router = createBrowserRouter([
     {
@@ -24,7 +26,12 @@ const router = createBrowserRouter([
             },
             {
                 path: "/admin",
-                element: <AdminPage /> 
+                element: (
+                    <ProtectedRoute>
+                        <AdminPage />
+                    </ProtectedRoute>
+                )
+                 
             }
         ]   
     },
