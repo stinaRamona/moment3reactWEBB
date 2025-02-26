@@ -1,5 +1,5 @@
 export interface User {
-    id: string,
+    _id: string,
     user_name: string, 
     email: string, 
     password: string //behöver kanske inte ha med 

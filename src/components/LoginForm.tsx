@@ -19,15 +19,16 @@ const LoginForm = () => {
     event.preventDefault(); 
 
     try {
-     
+      console.log("Försöker logga in med: ", loginData); 
       await login(loginData); 
+      console.log("Det gick att logga in, navigering till /admin"); 
       navigate("/admin"); 
       console.log("Inloggad"); 
 
     } catch (error) {
       setError("Det gick inte att logga in. Ange korrekt e-post och lösenord.");
       // konsoll koll för utveckling 
-      console.log(error); 
+      console.log("login error: " + error); 
     }
   }
 

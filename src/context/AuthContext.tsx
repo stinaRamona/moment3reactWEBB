@@ -25,16 +25,20 @@ export const AuthProvider: React.FC<AuthProviderProps>  = ({children}) => {
                 }, 
                 body: JSON.stringify(credentials)
             })
-
+            console.log("response: ", response); 
             if(!response.ok) {
                 throw new Error("Inloggningen misslyckades!"); 
             }
 
             const data = await response.json() as AuthResponse; 
 
+            console.log("response data: ", data); 
+
+            console.log("data token: ", data.token); 
             //lägger in token i localstorage
             localStorage.setItem("loginToken", data.token); 
-
+            
+            console.log("data.user: ", data.user); 
             setUser(data.user); 
 
         } catch (error) {
