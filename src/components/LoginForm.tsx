@@ -1,4 +1,6 @@
-import { useState } from "react"
+import { useState } from "react"; 
+import { useAuth } from "../context/AuthContext"; 
+import { useNavigate } from "react-router-dom";
 
 interface LoginForm {
   email: string, 
@@ -10,26 +12,20 @@ const LoginForm = () => {
   const [loginData, setLoginData] = useState<LoginForm>({email: "", password: ""}); 
   const [error, setError] = useState<string>(""); 
 
+  const {login} = useAuth(); 
+  const navigate = useNavigate();
+
   const loginUser = async (event : any) => {
     event.preventDefault(); 
 
     try {
-      let response = await fetch("https://hapiblog.onrender.com/login/auth", {
-        method: "POST", 
-        headers: {
-          "Content-Type": "application/json"
-        }, 
-        body: JSON.stringify(loginData)
-      })
-
-      if(!response.ok) {
-        // meddelanden för lyckad/misslyckad inloggning  
-        setError("Fel användarnamn eller lösenord. Försök igen!"); 
-      } else {
-        setError("Du är nu inloggad!")
-      }
+     
+      await login(loginData); 
+      navigate("/admin"); 
+      console.log("Inloggad"); 
 
     } catch (error) {
+      setError("Det gick inte att logga in. Ange korrekt e-post och lösenord.");
       // konsoll koll för utveckling 
       console.log(error); 
     }
