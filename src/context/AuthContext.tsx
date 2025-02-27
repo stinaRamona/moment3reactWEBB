@@ -1,5 +1,5 @@
 //reactpaket importeras in
-import { createContext, useState, useContext, ReactNode } from "react";
+import { createContext, useState, useContext, ReactNode, useEffect } from "react";
 
 //interface importeras in
 import { User, LoginCred, AuthResponse, AuthContextType} from "../types/auth.types"; 
@@ -51,6 +51,41 @@ export const AuthProvider: React.FC<AuthProviderProps>  = ({children}) => {
         localStorage.removeItem("loginToken"); 
         setUser(null); 
     }
+
+    // kolla om användaren har en token 
+
+    const validateToken = async () => {
+        const token = localStorage.getItem("loginToken"); 
+
+        if(!token) {
+            return; 
+        }
+
+        try {
+            const response = await fetch("https://hapiblog.onrender.com/protected", {
+                method: "GET", 
+                headers: {
+                    "Content-Type": "application/json", 
+                    "Authorization": "Bearer " + token
+                }
+            }); 
+
+            if(response.ok) {
+                const data = await response.json(); 
+                setUser(data.user); 
+            }
+
+        } catch(error) {
+            localStorage.removeItem("loginToken");
+            setUser(null); 
+            //konsollogg för utveckling
+            console.log(error); 
+        }
+    }
+
+    useEffect( () => {
+        validateToken(); 
+    }, []); 
 
     return (
         <AuthContext.Provider value={{user, login, logout}} >
