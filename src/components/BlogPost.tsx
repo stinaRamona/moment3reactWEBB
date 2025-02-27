@@ -46,6 +46,27 @@ const BlogPost = () => {
     navigate("/post/" + id); 
   }
 
+  const deletePost = async (id : string) => {
+    try {
+      const response = await fetch("https://hapiblog.onrender.com/post/" + id, {
+        method: "DELETE", 
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }); 
+
+      if(response.ok) {
+        console.log("Inlägget är raderat"); 
+        getPosts(); 
+      } else {
+        console.log("Något gick fel vid radering av inlägget"); 
+      }
+
+    } catch(error) {
+      console.log(error); 
+    }
+  }
+
   return (
     <>
     {
@@ -55,7 +76,7 @@ const BlogPost = () => {
           <em>{post.created}</em>
           <p>{post.author}</p>
           <article>{post.postText}</article> 
-          <button onClick={() => goToPage(post._id)}>Gå till inlägget</button>
+          {window.location.pathname === "/admin" ? <button onClick={() => deletePost(post._id)}>Radera</button> : <button onClick={() => goToPage(post._id)}>Gå till inlägget</button>}
         </div>
       ))
     }
