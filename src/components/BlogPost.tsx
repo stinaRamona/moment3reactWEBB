@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import NewPostForm from "./NewPostForm";
 
 //interface för svar från api
 interface Post {
@@ -17,12 +18,13 @@ const BlogPost = () => {
   
   //state för bloggpost 
   const [posts, setPosts] = useState<Post [] | []>([]);
+  const [editingPost, setEditingPost] = useState<Post | null>(null); 
   const navigate = useNavigate();  
 
-      //useEffect 
-      useEffect(() => {
-        getPosts(); 
-    }, [])
+  //useEffect 
+  useEffect(() => {
+    getPosts(); 
+  }, [])
 
   const getPosts = async () => {
         
@@ -67,8 +69,59 @@ const BlogPost = () => {
     }
   }
 
+  const handleUpdate = async (updatedPost: Post) => {
+    try {
+      const response = await fetch("https://hapiblog.onrender.com/post/" + updatedPost._id, {
+        method: "PUT", 
+        headers: {
+          "Content-Type": "application/json"
+        }, 
+        body: JSON.stringify(updatedPost),
+        
+      }); 
+
+      if(response.ok) {
+        console.log("Inlägget är uppdaterat!"); 
+        setEditingPost(null); 
+        getPosts(); 
+      } else {
+        console.log("Kunde inte uppdatera inlägget. Något gick fel")
+      }
+
+    } catch(error) {
+      console.log(error); 
+    }
+  } 
+
+  const handleCreate = async (newPost: PostForm) => {
+    try {
+      const response = await fetch("https://hapiblog.onrender.com/post", {
+        method: "POST", 
+        headers: {
+          "Content-Type": "application/json"
+        }, 
+        body: JSON.stringify(newPost)
+      }); 
+
+      if(response.ok) {
+        console.log("Inlägget är postat"); 
+        getPosts(); 
+      } else {
+        console.log("Gick inte att posta inlägg. Något gick tok"); 
+      }
+    } catch(error) {
+      console.log(error); 
+    }
+
+  }
+
   return (
     <>
+    {editingPost ? (
+      <NewPostForm mode="update" initialData={editingPost} onSubmit={handleUpdate} />
+    ) : (
+      <NewPostForm mode="create" onSubmit={handleCreate}/>
+    )}
     {
       posts.map((post) => (
         <div className="blogpostDiv" key={post._id}>
@@ -77,6 +130,7 @@ const BlogPost = () => {
           <p>{post.author}</p>
           <article>{post.postText}</article> 
           {window.location.pathname === "/admin" ? <button onClick={() => deletePost(post._id)}>Radera</button> : <button onClick={() => goToPage(post._id)}>Gå till inlägget</button>}
+          {window.location.pathname === "/admin" && <button onClick={() => setEditingPost(post)}>Uppdatera</button>}
         </div>
       ))
     }

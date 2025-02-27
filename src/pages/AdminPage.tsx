@@ -8,7 +8,7 @@ const AdminPage = () => {
         <h2>Lägg till inlägg:</h2>
         <NewPostForm />
 
-        <h2>Redigera inlägg</h2>
+        <h2>Redigera inlägg:</h2>
         <BlogPost />
     </div>
   )
