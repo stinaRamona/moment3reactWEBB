@@ -126,7 +126,7 @@ const BlogPost = () => {
       posts.map((post) => (
         <div className="blogpostDiv" key={post._id}>
           <h3>{post.title}</h3>
-          <em>{post.created}</em>
+          <em>{new Date(post.created).toLocaleDateString()}</em>
           <p>{post.author}</p>
           <article>{post.postText}</article> 
           {window.location.pathname === "/admin" ? <button onClick={() => deletePost(post._id)}>Radera</button> : <button onClick={() => goToPage(post._id)}>Gå till inlägget</button>}

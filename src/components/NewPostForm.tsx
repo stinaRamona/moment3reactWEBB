@@ -9,14 +9,16 @@ interface PostForm {
 
 interface NewPostFormProps {
     mode: "create" | "update", 
-    initialData?: PostForm,
-    onSubmit: (post: PostForm) => void
+    initialData?: Post,
+    onSubmit: (post: PostForm | Post) => void
 }
 
-const NewPostForm: React.FC<NewPostFormProps> = ({mode, initialData, onSubmit}) => { 
+
+const NewPostForm: React.FC<NewPostFormProps> = ({mode = "create", initialData, onSubmit}) => { 
     
     //state för formulärdata
-    const [formData, setFormData] = useState<PostForm>({title: "", author: "", postText: "", ...initialData}); 
+    const [formData, setFormData] = useState<PostForm>(
+        initialData || {title: "", author: "", postText: ""}); 
 
     useEffect(() => {
         if(initialData) {
@@ -32,7 +34,15 @@ const NewPostForm: React.FC<NewPostFormProps> = ({mode, initialData, onSubmit}) 
 
     //för att skapa en ny blogpost
     const handleSubmit = (event: React.FormEvent) => {
-        event.preventDefault(); 
+        event.preventDefault();
+       
+        if (mode === "update" && initialData) {
+            onSubmit({ ...initialData, ...formData }); 
+        } else {
+            onSubmit(formData); 
+        }
+
+         
         onSubmit(formData); 
     }; 
 
@@ -57,6 +67,6 @@ const NewPostForm: React.FC<NewPostFormProps> = ({mode, initialData, onSubmit}) 
         <input type="submit" value={mode === "create" ? "Posta inlägg" : "Uppdatera inlägg"} />
     </form>
   )
-}
+}; 
 
 export default NewPostForm
