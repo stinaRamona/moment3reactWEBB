@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-  //interface för svar från api
+//interface för svar från api
 interface Post {
   _id: string,
   title: string, 
@@ -15,7 +16,8 @@ interface Post {
 const BlogPost = () => {
   
   //state för bloggpost 
-  const [posts, setPosts] = useState<Post [] | []>([]); 
+  const [posts, setPosts] = useState<Post [] | []>([]);
+  const navigate = useNavigate();  
 
       //useEffect 
       useEffect(() => {
@@ -40,6 +42,10 @@ const BlogPost = () => {
       }
   }
 
+  const goToPage = (id: string) => {
+    navigate("/post/" + id); 
+  }
+
   return (
     <>
     {
@@ -49,6 +55,7 @@ const BlogPost = () => {
           <em>{post.created}</em>
           <p>{post.author}</p>
           <article>{post.postText}</article> 
+          <button onClick={() => goToPage(post._id)}>Gå till inlägget</button>
         </div>
       ))
     }

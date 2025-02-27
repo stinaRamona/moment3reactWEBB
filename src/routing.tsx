@@ -32,14 +32,14 @@ const router = createBrowserRouter([
                     </ProtectedRoute>
                 )
                  
+            }, 
+            {
+                path: "/post/:id", 
+                element: <SinglePage /> //kanske behöver göra om
             }
         ]   
     },
-    //ska nog ha annan layout
-    {
-        path: "/post/:id", 
-        element: <SinglePage /> //kanske behöver göra om
-    }
+
 ])
 
 export default router;

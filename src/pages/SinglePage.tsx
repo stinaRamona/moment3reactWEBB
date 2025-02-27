@@ -1,9 +1,9 @@
-
+import SinglePost from "../components/SinglePost"
 
 const SinglePage = () => {
   return (
     <div>
-      <h1>För en enskild bloggpost</h1>
+      <SinglePost />
     </div>
   )
 }
