@@ -1,0 +1,48 @@
+.blogpostDiv {
+    background-color: white;
+    border-radius: 4px; 
+    padding: 1em; 
+    margin-bottom: 1em; 
+} 
+
+#deleteBtn {
+    background-color: #db2316;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 10px; 
+    margin-right: 10px; 
+}
+
+#deleteBtn:hover {
+    background-color: #a11910;
+}
+
+#goToPostBtn {
+    background-color: #db7516;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 10px; 
+}
+
+#updateBtn {
+    background-color: #db7516;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 10px; 
+}
+
+#goToPostBtn:hover, #updateBtn:hover {
+    background-color: #9c5410;
+}

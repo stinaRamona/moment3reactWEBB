@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NewPostForm from "./NewPostForm";
 
+import "../css/BlogPost.css"; 
+
 //interface för svar från api
 interface Post {
   _id: string,
@@ -151,8 +153,8 @@ const BlogPost = () => {
         <em>{new Date(post.created).toLocaleDateString()}</em>
         <p>{post.author}</p>
         <article>{post.postText}</article> 
-        {window.location.pathname === "/admin" ? <button onClick={() => deletePost(post._id)}>Radera</button> : <button onClick={() => goToPage(post._id)}>Gå till inlägget</button>}
-        {window.location.pathname === "/admin" && <button onClick={() => setEditingPost(post)}>Uppdatera</button>}
+        {window.location.pathname === "/admin" ? <button id="deleteBtn" onClick={() => deletePost(post._id)}>Radera</button> : <button id="goToPostBtn" onClick={() => goToPage(post._id)}>Gå till inlägget</button>}
+        {window.location.pathname === "/admin" && <button id="updateBtn" onClick={() => setEditingPost(post)}>Uppdatera</button>}
       </div>
       ))
     }
