@@ -136,21 +136,24 @@ const BlogPost = () => {
 
   return (
     <>
-    {editingPost ? (
+    {window.location.pathname !== "/" && (
+      editingPost ? (
       <NewPostForm mode="update" initialData={editingPost} onSubmit={handleUpdate} />
-    ) : (
+      ) : (
       <NewPostForm mode="create" onSubmit={handleCreate}/>
+      )
     )}
+    
     {
       posts.map((post) => (
-        <div className="blogpostDiv" key={post._id}>
-          <h3>{post.title}</h3>
-          <em>{new Date(post.created).toLocaleDateString()}</em>
-          <p>{post.author}</p>
-          <article>{post.postText}</article> 
-          {window.location.pathname === "/admin" ? <button onClick={() => deletePost(post._id)}>Radera</button> : <button onClick={() => goToPage(post._id)}>Gå till inlägget</button>}
-          {window.location.pathname === "/admin" && <button onClick={() => setEditingPost(post)}>Uppdatera</button>}
-        </div>
+      <div className="blogpostDiv" key={post._id}>
+        <h3>{post.title}</h3>
+        <em>{new Date(post.created).toLocaleDateString()}</em>
+        <p>{post.author}</p>
+        <article>{post.postText}</article> 
+        {window.location.pathname === "/admin" ? <button onClick={() => deletePost(post._id)}>Radera</button> : <button onClick={() => goToPage(post._id)}>Gå till inlägget</button>}
+        {window.location.pathname === "/admin" && <button onClick={() => setEditingPost(post)}>Uppdatera</button>}
+      </div>
       ))
     }
     </>
