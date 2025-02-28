@@ -71,20 +71,25 @@ const BlogPost = () => {
 
   const handleUpdate = async (updatedPost: Post) => {
     try {
-      const response = await fetch("https://hapiblog.onrender.com/post/" + updatedPost._id, {
+      const {_id, title, author, postText} = updatedPost; //separerar på id och resten av datan för korrekt uppdatering 
+
+      const response = await fetch("https://hapiblog.onrender.com/post/" + _id, {
         method: "PUT", 
         headers: {
           "Content-Type": "application/json"
         }, 
-        body: JSON.stringify(updatedPost),
+        body: JSON.stringify({title, author, postText}),
         
       }); 
+
+      console.log("Data som skickas för uppdatering:", {title, author, postText});
 
       if(response.ok) {
         console.log("Inlägget är uppdaterat!"); 
         setEditingPost(null); 
         getPosts(); 
       } else {
+        console.log("Kunde inte uppdatera inlägget. API-svar:", response.status, await response.text());
         console.log("Kunde inte uppdatera inlägget. Något gick fel")
       }
 
@@ -93,14 +98,24 @@ const BlogPost = () => {
     }
   } 
 
+  let isSubmitting = false;
+
   const handleCreate = async (newPost: PostForm) => {
+
+    if (isSubmitting) return;
+    isSubmitting = true;
+
+    const {title, author, postText} = newPost; 
+
     try {
+      console.log("Data som skickas till API:", newPost);
+
       const response = await fetch("https://hapiblog.onrender.com/post", {
         method: "POST", 
         headers: {
           "Content-Type": "application/json"
         }, 
-        body: JSON.stringify(newPost)
+        body: JSON.stringify({title, author, postText})
       }); 
 
       if(response.ok) {
@@ -108,9 +123,13 @@ const BlogPost = () => {
         getPosts(); 
       } else {
         console.log("Gick inte att posta inlägg. Något gick tok"); 
+        console.log(await response.text());
+        console.log("API-svar:", response.status, await response.json());
       }
     } catch(error) {
       console.log(error); 
+    } finally {
+      isSubmitting = false;
     }
 
   }

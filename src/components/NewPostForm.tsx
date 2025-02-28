@@ -5,6 +5,7 @@ interface PostForm {
     title: string, 
     author: string, 
     postText: string,
+    created?: string
 }
 
 interface NewPostFormProps {
@@ -35,7 +36,10 @@ const NewPostForm: React.FC<NewPostFormProps> = ({mode = "create", initialData, 
     //för att skapa en ny blogpost
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-       
+        event.stopPropagation();
+
+        console.log("Formulärdata vid submit:", formData);
+
         if (mode === "update" && initialData) {
             onSubmit({ ...initialData, ...formData }); 
         } else {
