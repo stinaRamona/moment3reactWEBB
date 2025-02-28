@@ -100,7 +100,7 @@ const BlogPost = () => {
 
   let isSubmitting = false;
 
-  const handleCreate = async (newPost: PostForm) => {
+  const handleCreate = async (newPost: Post) => {
 
     if (isSubmitting) return;
     isSubmitting = true;

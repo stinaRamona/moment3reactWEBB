@@ -10,7 +10,7 @@ interface PostForm {
 
 interface NewPostFormProps {
     mode: "create" | "update", 
-    initialData?: Post,
+    initialData?: PostForm,
     onSubmit: (post: PostForm | Post) => void
 }
 
