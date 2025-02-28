@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"; 
 import { useAuth } from "../context/AuthContext"; 
 import { useNavigate } from "react-router-dom";
+import "../css/LoginForm.css";
 
 interface LoginForm {
   email: string, 
@@ -52,7 +53,7 @@ const LoginForm = () => {
       />
       <br />
       {error && <p>{error}</p>}
-      <input type="submit" value="Logga in"/>
+      <input id="loginBtn" type="submit" value="Logga in"/>
     </form>
   )
 }

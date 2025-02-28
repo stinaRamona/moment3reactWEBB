@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import "../css/NewPostForm.css"; 
 
 interface PostForm {
     _id?: string,
