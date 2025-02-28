@@ -1,11 +1,11 @@
-
+import "../css/Footer.css"; 
 
 const Footer = () => {
   return (
-    <div>
+    <footer>
         <p>©️Stina Persson</p>
         <p>Fördjupad Frontendutveckling - Mittunoversitetet 2025</p>
-    </div>
+    </footer>
   )
 }
 

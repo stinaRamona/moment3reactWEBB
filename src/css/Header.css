@@ -1,0 +1,45 @@
+header {
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #db7516;
+    border-bottom: 1px solid #e9ecef;
+
+}
+
+ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin-left: 10px; 
+}
+
+.nav-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.5em; 
+    margin: 0.5em; 
+} 
+
+.nav-link:hover {
+    color: #f8f9fa;
+    text-decoration: underline;
+}
+
+#logOutBtn {
+    background-color: #5e3209;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+#logOutBtn:hover {
+    background-color: #412206;
+}
