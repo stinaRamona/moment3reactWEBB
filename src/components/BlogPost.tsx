@@ -16,6 +16,14 @@ interface Post {
   created: string
 }; 
 
+interface PostForm {
+  _id?: string,
+  title: string, 
+  author: string, 
+  postText: string,
+  created?: string
+};
+
 const BlogPost = () => {
   
   //state för bloggpost 
@@ -77,7 +85,7 @@ const BlogPost = () => {
   }
 
   //uppdaterar inlägg 
-  const handleUpdate = async (updatedPost: Post) => {
+  const handleUpdate = async (updatedPost: Post | PostForm) => {
     try {
       const {_id, title, author, postText} = updatedPost; //separerar på id och resten av datan för korrekt uppdatering 
 
@@ -110,7 +118,7 @@ const BlogPost = () => {
   let isSubmitting = false;
 
   //lägger till inlägg
-  const handleCreate = async (newPost: Post) => {
+  const handleCreate = async (newPost: Post | PostForm) => {
 
     if (isSubmitting) return;
     isSubmitting = true;

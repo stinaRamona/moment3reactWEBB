@@ -9,6 +9,14 @@ interface PostForm {
     created?: string
 }
 
+interface Post {
+    _id: string,
+    title: string, 
+    author: string, 
+    postText: string, 
+    created: string
+  };
+
 //props som komponenten kan ta emot 
 interface NewPostFormProps {
     mode: "create" | "update", 
