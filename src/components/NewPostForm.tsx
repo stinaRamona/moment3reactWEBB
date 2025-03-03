@@ -57,6 +57,9 @@ const NewPostForm: React.FC<NewPostFormProps> = ({mode = "create", initialData, 
             onSubmit(formData); 
         }
 
+        if (mode === "create") {
+            setFormData({title: "", author: "", postText: ""});
+        }
          
         onSubmit(formData); 
     }; 
