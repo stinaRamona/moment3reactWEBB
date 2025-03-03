@@ -9,10 +9,11 @@ interface PostForm {
     created?: string
 }
 
+//props som komponenten kan ta emot 
 interface NewPostFormProps {
     mode: "create" | "update", 
     initialData?: PostForm,
-    onSubmit: (post: PostForm | Post) => void
+    onSubmit: (post: PostForm | Post) => void 
 }
 
 
@@ -20,8 +21,9 @@ const NewPostForm: React.FC<NewPostFormProps> = ({mode = "create", initialData, 
     
     //state för formulärdata
     const [formData, setFormData] = useState<PostForm>(
-        initialData || {title: "", author: "", postText: ""}); 
-
+        initialData || {title: "", author: "", postText: ""});  
+    
+    //körs när när initialData ändras 
     useEffect(() => {
         if(initialData) {
             setFormData(initialData); 

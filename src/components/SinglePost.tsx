@@ -10,8 +10,11 @@ interface Post {
 };
 
 const SinglePost = () => {
+    //states 
     const { id } = useParams<{id : string}>(); 
     const [post, setPost] = useState<Post | null>(null); 
+    const [error, setError] = useState<string>(); 
+
 
     const fetchPost = async () => {
         try {
@@ -24,6 +27,9 @@ const SinglePost = () => {
             } else {
                 //consollogg för utveckling 
                 console.log("fel vid hämtnig av data"); 
+
+                //felmeddelande
+                setError("Kunde inte hämta posten. Försök igen senare.")
             }
             
         } catch(error) {
@@ -41,8 +47,9 @@ const SinglePost = () => {
 
     return ( 
         <div id="singlePostDiv">
+            <span>{error && error}</span>
             <h2>{post.title}</h2>
-            <em>{post.created}</em>
+            <em>{new Date(post.created).toLocaleDateString()}</em>
             <p>{post.author}</p>
             <article>{post.postText}</article>
         </div>

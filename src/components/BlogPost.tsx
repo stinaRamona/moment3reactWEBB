@@ -22,6 +22,7 @@ const BlogPost = () => {
   const [posts, setPosts] = useState<Post [] | []>([]);
   const [editingPost, setEditingPost] = useState<Post | null>(null); 
   const navigate = useNavigate();  
+  const [error, setError] = useState<string>(); 
 
   //useEffect 
   useEffect(() => {
@@ -29,7 +30,7 @@ const BlogPost = () => {
   }, [])
 
   const getPosts = async () => {
-        
+      //hämtar in poster   
       try {
           let response = await fetch("https://hapiblog.onrender.com/posts"); 
 
@@ -38,7 +39,8 @@ const BlogPost = () => {
               setPosts(data); 
                 
           } else {
-              console.log("Fel vid hämtning av data"); 
+              console.log("Fel vid hämtning av data");
+              setError("Kunde inte hämta poster. Försök igen senare");  
           }
 
       } catch(error) {
@@ -46,10 +48,12 @@ const BlogPost = () => {
       }
   }
 
+  //tar id från post och visar posten på separat sida 
   const goToPage = (id: string) => {
     navigate("/post/" + id); 
   }
 
+  //tar bort post med id 
   const deletePost = async (id : string) => {
     try {
       const response = await fetch("https://hapiblog.onrender.com/post/" + id, {
@@ -64,6 +68,7 @@ const BlogPost = () => {
         getPosts(); 
       } else {
         console.log("Något gick fel vid radering av inlägget"); 
+        setError("Kunde inte radera posten. Försök igen senare"); 
       }
 
     } catch(error) {
@@ -71,6 +76,7 @@ const BlogPost = () => {
     }
   }
 
+  //uppdaterar inlägg 
   const handleUpdate = async (updatedPost: Post) => {
     try {
       const {_id, title, author, postText} = updatedPost; //separerar på id och resten av datan för korrekt uppdatering 
@@ -93,6 +99,7 @@ const BlogPost = () => {
       } else {
         console.log("Kunde inte uppdatera inlägget. API-svar:", response.status, await response.text());
         console.log("Kunde inte uppdatera inlägget. Något gick fel")
+        setError("Kunde inte uppdatera inlägget. Försök igen senare"); 
       }
 
     } catch(error) {
@@ -102,6 +109,7 @@ const BlogPost = () => {
 
   let isSubmitting = false;
 
+  //lägger till inlägg
   const handleCreate = async (newPost: Post) => {
 
     if (isSubmitting) return;
@@ -127,6 +135,7 @@ const BlogPost = () => {
         console.log("Gick inte att posta inlägg. Något gick tok"); 
         console.log(await response.text());
         console.log("API-svar:", response.status, await response.json());
+        setError("Kunde inte posta inlägg. Kontrollera att du har fyllt i hela formuläret och försök igen."); 
       }
     } catch(error) {
       console.log(error); 
@@ -138,6 +147,7 @@ const BlogPost = () => {
 
   return (
     <>
+    {/*Kontrollerar om det är mode uppdatera eller skapa och anpassar formuläret NewPostForm baserat på det*/}
     {window.location.pathname !== "/" && (
       editingPost ? (
       <NewPostForm mode="update" initialData={editingPost} onSubmit={handleUpdate} />
@@ -145,7 +155,7 @@ const BlogPost = () => {
       <NewPostForm mode="create" onSubmit={handleCreate}/>
       )
     )}
-    
+    <span>{error && error}</span>
     {
       posts.map((post) => (
       <div className="blogpostDiv" key={post._id}>
