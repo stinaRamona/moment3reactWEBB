@@ -31,6 +31,7 @@ const BlogPost = () => {
   const [editingPost, setEditingPost] = useState<Post | null>(null); 
   const navigate = useNavigate();  
   const [error, setError] = useState<string>(); 
+  const [isLoading, setIsLoading] = useState<boolean>(false); 
 
   //useEffect 
   useEffect(() => {
@@ -40,6 +41,8 @@ const BlogPost = () => {
   const getPosts = async () => {
       //hämtar in poster   
       try {
+          setIsLoading(true); 
+
           let response = await fetch("https://hapiblog.onrender.com/posts"); 
 
           if(response.ok) {
@@ -53,6 +56,9 @@ const BlogPost = () => {
 
       } catch(error) {
           console.error(error); 
+      } finally {
+        setIsLoading(false); 
+
       }
   }
 
@@ -164,6 +170,7 @@ const BlogPost = () => {
       )
     )}
     <span>{error && error}</span>
+    {isLoading && <h3>Laddar inlägg...</h3>}
     {
       posts.map((post) => (
       <div className="blogpostDiv" key={post._id}>
