@@ -31,12 +31,15 @@ const NewPostForm: React.FC<NewPostFormProps> = ({mode = "create", initialData, 
     const [formData, setFormData] = useState<PostForm>(
         initialData || {title: "", author: "", postText: ""});  
     
+    //state för errors 
+    const [error, setError] = useState<string[]>([]); 
+
     //körs när när initialData ändras 
     useEffect(() => {
         if(initialData) {
             setFormData(initialData); 
         }
-    }, [initialData]); 
+    }, [initialData]);  
 
     //för uppdatering av bloggpost
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -49,7 +52,27 @@ const NewPostForm: React.FC<NewPostFormProps> = ({mode = "create", initialData, 
         event.preventDefault();
         event.stopPropagation();
 
+        //för att spara errors från formuläret
+        const errors = [];
+
         console.log("Formulärdata vid submit:", formData);
+
+        if(!formData.title) {
+            errors.push("Du måste ange en rubrik");
+        }
+
+        if(!formData.author) {
+            errors.push("Du måste ange en författare"); 
+        }
+
+        if(!formData.postText) {
+            errors.push("Du måste skriva en inläggstext"); 
+        }
+
+        if(errors.length > 0 ) {
+            setError(errors); 
+            return; 
+        }
 
         if (mode === "update" && initialData) {
             onSubmit({ ...initialData, ...formData }); 
@@ -62,6 +85,8 @@ const NewPostForm: React.FC<NewPostFormProps> = ({mode = "create", initialData, 
         }
          
         onSubmit(formData); 
+
+        setError([""]); 
     }; 
 
   return (
@@ -83,6 +108,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({mode = "create", initialData, 
         onChange={handleChange}
         ></textarea><br />
         <input type="submit" value={mode === "create" ? "Posta inlägg" : "Uppdatera inlägg"} />
+        {error.length > 0 && error.map((err, index) => <p key={index}>{err}</p>)}
     </form>
   )
 }; 
